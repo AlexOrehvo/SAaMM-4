@@ -1,5 +1,8 @@
 package elements;
 
+import common.Request;
+import generators.TimeGenerator;
+
 public class Source extends Thread {
 
     private double intensity = 0.8;
@@ -16,9 +19,13 @@ public class Source extends Thread {
     @Override
     public void run() {
         while (activated) {
-            Thread.sleep();
+            try {
+                Thread.sleep(TimeGenerator.getSleepTime(0.9, 100));
+                Request request = new Request();
+                queue.addRequest(request);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-
 }
