@@ -1,9 +1,11 @@
 package elements;
 
 import common.Request;
+import common.Stat;
 
+import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,29 +28,60 @@ public class Queue {
     }
 
     public void addRequest(Request request) throws InterruptedException {
-        if (isFull()) {
-            sourceLock.await();
-        } else {
+        lock.lock();
+        try {
+            while (queue.size() > 2)
+                sourceLock.await();
+
             if (channel.isBusy()) {
+                request.setStartOfQueue(new Date());
                 request.setWasInLine(true);
-                queue.add(request);
             }
+            queue.add(request);
+            checkState();
             channelLock.signal();
+
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            lock.unlock();
         }
     }
 
     public Request getRequest() throws InterruptedException {
-        if (queue.isEmpty()) {
-            channelLock.await();
-        } else {
-            Request req = queue.remove();
+        lock.lock();
+        try {
+            while (queue.size() < 1)
+                channelLock.await();
+
+            Request request = queue.remove();
+            request.setEndOfQueue(new Date());
             sourceLock.signal();
-            return req;
+            Stat.finish();
+            return request;
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            lock.unlock();
         }
         return null;
     }
 
     private boolean isFull() {
         return queue.size() == 2;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    private void checkState() {
+        if (queue.size() == 2 && channel.isBusy()) {
+            Stat.start();
+        }
     }
 }

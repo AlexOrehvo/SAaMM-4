@@ -11,6 +11,10 @@ public class Request {
 
     private Date deadTime;
 
+    private Date startOfQueue;
+
+    private Date endOfQueue;
+
     public Request() {
         bornTime = new Date();
     }
@@ -37,5 +41,21 @@ public class Request {
 
     public void setDeadTime(Date deadTime) {
         this.deadTime = deadTime;
+    }
+
+    public Date getStartOfQueue() {
+        return startOfQueue;
+    }
+
+    public void setStartOfQueue(Date startOfQueue) {
+        this.startOfQueue = startOfQueue;
+    }
+
+    public Date getEndOfQueue() {
+        return endOfQueue;
+    }
+
+    public void setEndOfQueue(Date endOfQueue) {
+        this.endOfQueue = endOfQueue;
     }
 }

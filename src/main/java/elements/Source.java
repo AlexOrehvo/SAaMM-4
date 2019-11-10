@@ -5,7 +5,7 @@ import generators.TimeGenerator;
 
 public class Source extends Thread {
 
-    private double intensity = 0.8;
+    private double intensity;
 
     private Queue queue;
 
@@ -20,12 +20,20 @@ public class Source extends Thread {
     public void run() {
         while (activated) {
             try {
-                Thread.sleep(TimeGenerator.getSleepTime(0.9, 100));
+                Thread.sleep(TimeGenerator.getSleepTime(intensity,100));
                 Request request = new Request();
                 queue.addRequest(request);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void off() {
+        activated = false;
+    }
+
+    public void setIntensity(double intensity) {
+        this.intensity = intensity;
     }
 }
