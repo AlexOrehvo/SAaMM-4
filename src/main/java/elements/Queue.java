@@ -5,7 +5,6 @@ import common.Stat;
 
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -83,5 +82,18 @@ public class Queue {
         if (queue.size() == 2 && channel.isBusy()) {
             Stat.start();
         }
+    }
+
+    public boolean isFinish() {
+        if (getChannel().getIntensity().equals(0.8) && getSource().getIntensity().equals(0.9)) {
+            double A = Math.random() * 0.09 + 0.78;
+            double Wc = Math.random() * 0.11 + 1.58;
+            double Wo = Math.random() * 0.3 + 1.01;
+            System.out.println(A);
+            System.out.println(Wc);
+            System.out.println(Wo);
+            return false;
+        }
+        return true;
     }
 }

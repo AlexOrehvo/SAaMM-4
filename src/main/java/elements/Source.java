@@ -5,7 +5,7 @@ import generators.TimeGenerator;
 
 public class Source extends Thread {
 
-    private double intensity;
+    private Double intensity;
 
     private Queue queue;
 
@@ -33,7 +33,11 @@ public class Source extends Thread {
         activated = false;
     }
 
-    public void setIntensity(double intensity) {
+    public void setIntensity(Double intensity) {
         this.intensity = intensity;
+    }
+
+    public Double getIntensity() {
+        return intensity;
     }
 }

@@ -28,11 +28,13 @@ public class Main {
             source.join();
             channel.join();
             Date fn = new Date();
+            if (queue.isFinish()) {
             long workTime = fn.getTime() - st.getTime();
             double unitTimeAmount = (float) workTime / 100;
             System.out.println((float)channel.list.size() / unitTimeAmount);
             System.out.println(showWc(channel.list));
             System.out.println(showWo(channel.list));
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

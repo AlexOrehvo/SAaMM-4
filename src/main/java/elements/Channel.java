@@ -11,7 +11,7 @@ public class Channel extends Thread {
 
     private Request processedRequest;
 
-    private double intensity;
+    private Double intensity;
 
     private boolean activated = true;
 
@@ -51,7 +51,11 @@ public class Channel extends Thread {
         activated = false;
     }
 
-    public void setIntensity(double intensity) {
+    public void setIntensity(Double intensity) {
         this.intensity = intensity;
+    }
+
+    public Double getIntensity() {
+        return intensity;
     }
 }
